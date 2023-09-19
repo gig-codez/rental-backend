@@ -19,7 +19,7 @@ class TenantLogin {
         req.body.password,
         tenant.password,
         async (err, result) => {
-          console.log(result);
+         
           if (result) {
             jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
               if (err) {

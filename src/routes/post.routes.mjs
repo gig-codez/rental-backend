@@ -7,6 +7,7 @@ import PropertyController from "../controllers/property.controller.mjs";
 import ComplaintController from "../controllers/complaint.controller.mjs";
 import PaymentController from "../controllers/payment.controller.mjs";
 import TenantLogin from "../auth/tenantLogin.mjs";
+import ForgotPassword from "../auth/ForgotPassword.mjs";
 const router = Router();
 // posts
 router.post(
@@ -30,4 +31,6 @@ router.post(
 router.post("/create/payment", PaymentController.addPayment);
 // tenant login
 router.post("/login/tenant", TenantLogin.tenantLogin);
+// forgot password
+router.post('/forgotPassword', ForgotPassword.forgotPassword);
 export default router;
