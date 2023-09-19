@@ -17,6 +17,6 @@ router.patch(
   TenantController.updateTenant
 );
 router.patch("/updateProperty/:id", PropertyController.updateProperty);
-router.patch("/updateComplaint/:id", ComplaintController.updateComplaint);
+router.patch("/updateComplaint/:id", fileUpload("/uploads/images"),ComplaintController.updateComplaint);
 router.patch("/updatePayment/:id",PaymentController.updatePayment);
 export default router;

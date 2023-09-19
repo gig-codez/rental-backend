@@ -1,4 +1,5 @@
 import tenantsModel from "../models/tenants.model.mjs";
+import bcrypt from "bcrypt";
 class TenantController {
   static createTenant = async (req, res) => {
     // const { name, address, email, phone, password, property_id, landlord_id } = req.body;
@@ -17,25 +18,32 @@ class TenantController {
         name: req.body.name,
         email: req.body.email,
       });
+      bcrypt.hash(req.body.password, 10, async (err, hash) => {
+        if (err) {
+          res.status(500).json({ message: err.message });
+        } else {
+          if (!oldTenantRecord) {
+            // If the tenant does not exist, create a new one
+            const tenantPayload = new tenantsModel({
+              name: req.body.name,
+              address: req.body.address,
+              email: req.body.email,
+              phone: req.body.phone,
+              password: hash,
+              profile: profile_img,
+              property: req.body.property,
+              landlord: req.body.landlord,
+            });
+  
+            await tenantPayload.save();
+            res.status(200).send(tenantPayload);
+          } else {
+            res.status(400).json({ message: "Tenant already exists!" });
+          }
+        }
+      });
 
-      if (!oldTenantRecord) {
-        // If the tenant does not exist, create a new one
-        const tenantPayload = new tenantsModel({
-          name: req.body.name,
-          address: req.body.address,
-          email: req.body.email,
-          phone: req.body.phone,
-          password: req.body.password,
-          profile: profile_img,
-          property: property_id,
-          landlord: landlord_id,
-        });
-
-        await tenantPayload.save();
-        res.status(200).send(tenantPayload);
-      } else {
-        res.status(400).json({ message: "Tenant already exists!" });
-      }
+     
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -45,7 +53,7 @@ class TenantController {
   static fetchAllTenants = async (req, res) => {
     try {
       // Find all tenants using the Tenant model
-      const tenants = await Tenant.find();
+      const tenants = await tenantsModel.find();
       res.status(200).send(tenants);
     } catch (err) {
       res.status(500).json({ message: err.message });

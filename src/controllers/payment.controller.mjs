@@ -9,6 +9,7 @@ class PaymentController {
         balance: req.body.balance,
         tenant: req.body.tenant,
       });
+      await payment.save();
       res.status(200).json({ message: payment });
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -17,15 +18,16 @@ class PaymentController {
   // function to update payment
   static updatePayment = async (req, res) => {
     try {
+      console.log(req.params.id)
       const oldPaymentRecord = await PaymentModel.findById(req.params.id);
       if (oldPaymentRecord) {
         const updatedPaymentRecord = await PaymentModel.findByIdAndUpdate(
           req.params.id,
           {
             date: req.body.date,
-        amount_paid: req.body.amount,
-        balance: req.body.balance,
-        tenant: req.body.tenant,
+            amount_paid: req.body.amount,
+            balance: req.body.balance,
+            tenant: req.body.tenant,
           },
           { new: true }
         );

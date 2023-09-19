@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import mongoose , { Schema } from 'mongoose';
 const complaintSchema = new Schema({
     tenant: {
         type: Schema.Types.ObjectId,
@@ -22,4 +22,4 @@ const complaintSchema = new Schema({
     }
 });
 
-export default complaintSchema;
+export default mongoose.model('complaints',complaintSchema);

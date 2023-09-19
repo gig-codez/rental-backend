@@ -6,6 +6,7 @@ import LandlordController from "../controllers/landlord.controller.mjs";
 import PropertyController from "../controllers/property.controller.mjs";
 import ComplaintController from "../controllers/complaint.controller.mjs";
 import PaymentController from "../controllers/payment.controller.mjs";
+import TenantLogin from "../auth/tenantLogin.mjs";
 const router = Router();
 // posts
 router.post(
@@ -21,7 +22,12 @@ router.post(
 );
 
 router.post("/create/property", PropertyController.createProperty);
-router.post("/create/complaint", ComplaintController.addComplaint);
+router.post(
+  "/create/complaint",
+  fileUpload("/uploads/images"),
+  ComplaintController.addComplaint
+);
 router.post("/create/payment", PaymentController.addPayment);
-// router.post('')
+// tenant login
+router.post("/login/tenant", TenantLogin.tenantLogin);
 export default router;

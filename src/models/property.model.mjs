@@ -1,4 +1,5 @@
 import { Schema, Types } from 'mongoose';
+import mongoose  from 'mongoose';
 const propertySchema = new Schema({
 
     name: { type: String, required: true },
@@ -12,4 +13,4 @@ const propertySchema = new Schema({
         required: true,
     }
 });
-export default propertySchema;
+export default mongoose.model('properties',propertySchema);

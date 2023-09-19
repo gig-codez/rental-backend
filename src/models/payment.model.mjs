@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema,Types } from "mongoose";
 const paymentSchema = new Schema({
     amount_paid: {
         type: Number,
@@ -11,10 +11,10 @@ const paymentSchema = new Schema({
         type: String,
         required: true
     }, tenant: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'tenants',
         required: true
     }
 });
 
-export default paymentSchema;
+export default mongoose.model('payments',paymentSchema);

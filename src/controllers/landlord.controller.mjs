@@ -1,5 +1,5 @@
 import landlordModel from "../models/landlord.model.mjs";
-
+import bcrypt from "bcrypt";
 class LandlordController {
   static createLandlord = async (req, res) => {
     let profile_img = "";
@@ -8,7 +8,7 @@ class LandlordController {
         console.log(req.file);
         profile_img = req.file.path;
       } else {
-        profile_img = `uploads/default.png`;
+        profile_img = `default.png`;
       }
       const landlordPayload = new landlordModel({
         name: req.body.name,
@@ -21,12 +21,20 @@ class LandlordController {
         name: req.body.name,
         email: req.body.email,
       });
-      if (!oldLandlordRecord) {
-        await landlordPayload.save();
-        res.status(200).send(landlordPayload);
-      } else {
-        res.status(400).send("Landlord already exists!");
-      }
+      bcrypt.hash(req.body.password, 10, async (err, hash) => {
+        if (err) {
+          res.status(500).json({ message: err.message });
+        } else {
+          if (!oldLandlordRecord) {
+            // If the landlord does not exist, create a new one
+            await landlordPayload.save();
+            res.status(200).send(landlordPayload);
+          } else {
+            res.status(400).send("Landlord already exists!");
+          }
+        }
+      })
+      
     } catch (err) {
       res.status(500).json({ message: err.message });
     }

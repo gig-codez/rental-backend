@@ -7,7 +7,7 @@ class PropertyController {
         address: req.body.address,
         floors: req.body.floors,
         landlord: req.body.landlord,
-        tenant: req.body.tenant,
+        
       });
       res.status(201).json({ message: property });
     } catch (err) {
@@ -48,7 +48,7 @@ class PropertyController {
             address: req.body.address,
             floors: req.body.floors,
             landlord: req.body.landlord,
-            tenant: req.body.tenant,
+      
           },
           { new: true }
         );

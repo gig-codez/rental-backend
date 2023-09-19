@@ -3,14 +3,22 @@ class ComplaintController{
     // function to add complaints
     static addComplaint = async (req, res) => {
         try {
-            const complaint = new ComplaintModel({
+            const oldComplaint = await ComplaintModel.findOne({ complaint_name: req.body.name });
+            // check if a complaint with the same name exists
+            if (oldComplaint) {
+                res.status(400).json({ message: "Complaint already exists!" });
+            } else { 
+                const complaint = new ComplaintModel({
+                tenant: req.body.tenant,
                 complaint_name: req.body.name,
                 complaint_description: req.body.description,
                 complaint_status: req.body.status,
                 complaint_date: req.body.date,
-                complaint_image:req.file?req.file.originalname:"default.png",
-            });
-            res.status(200).json({ message: complaint });
+                complaint_image: req.file ? req.file.originalname : "default.png",
+                });
+               await complaint.save();
+            res.status(200).json({ complaint });
+        }
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
