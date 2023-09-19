@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 const landlordSchema = new Schema({
     name: {
         type: String,
@@ -9,4 +10,4 @@ const landlordSchema = new Schema({
     profile: { type: String, required: false, default: '' },
 });
 
-export default landlordSchema;
+export default mongoose.model('landlords',landlordSchema);

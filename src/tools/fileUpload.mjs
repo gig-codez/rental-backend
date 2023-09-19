@@ -19,7 +19,6 @@ const fileUpload = (destination) =>
         },
         onError: function (err, next) {
             return console.log("error: ", err);
-            next();
         },
     }).single('image');
 

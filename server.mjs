@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import "dotenv/config";
 import cors from "cors";
+import { join, dirname } from "path";
 import { set, connect } from "mongoose";
 const app = express();
 // app libraries
@@ -11,7 +12,8 @@ import updateRoutes from "./src/routes/update.routes.mjs";
 // app routes
 app.use(json());
 app.use(cors());
-app.use("/uploads", express.static("uploads"));
+app.use(express.urlencoded({ extended: true }));
+app.use("/image", express.static("./uploads"));
 app.use("/post", postRoutes);
 app.use("/get", getRoutes);
 app.use("/delete", deleteRoutes);

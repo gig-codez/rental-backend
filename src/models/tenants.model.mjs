@@ -1,5 +1,5 @@
 import { Schema, Types } from "mongoose";
-
+import mongoose from 'mongoose';
 const tenantSchema = new Schema({
 
     name: {
@@ -36,4 +36,4 @@ const tenantSchema = new Schema({
         ref: 'landlord',
     }
 });
-export default tenantSchema;
+export default mongoose.model('tenants',tenantSchema);
