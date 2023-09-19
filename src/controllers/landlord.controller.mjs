@@ -64,7 +64,7 @@ class LandlordController {
         console.log(oldLandlordRecord);
       if (oldLandlordRecord) {
         if (req.file) {
-          profile_img = req.file.path;
+          profile_img = req.file.originalname;
         } else {
           profile_img = oldLandlordRecord.profile;
         }
