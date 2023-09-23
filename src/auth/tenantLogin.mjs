@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import tenantModel from "../models/tenants.model.mjs";
+import { updateTenantFCMToken } from "../helpers/helperfunctions.mjs";
 class TenantLogin {
   static tenantLogin = async (req, res) => {
     try {
@@ -21,6 +22,10 @@ class TenantLogin {
         async (err, result) => {
          
           if (result) {
+            // user account found
+            // update user fcm token
+            // updateTenantFCMToken
+            // updateTenantFCMToken(tenant._id, req.body.fcm_token);
             jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
               if (err) {
                 return res.status(401).json({ message: "Invalid token" });

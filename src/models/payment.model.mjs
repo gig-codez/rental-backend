@@ -15,6 +15,8 @@ const paymentSchema = new Schema({
         ref: 'tenants',
         required: true
     }
-});
+},{
+    timestamps: true,
+  });
 
 export default mongoose.model('payments',paymentSchema);

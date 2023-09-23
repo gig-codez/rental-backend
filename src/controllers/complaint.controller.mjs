@@ -9,7 +9,9 @@ class ComplaintController{
                 res.status(400).json({ message: "Complaint already exists!" });
             } else { 
                 const complaint = new ComplaintModel({
-                tenant: req.body.tenant,
+                    tenant: req.body.tenant,
+                    property: req.body.property,
+                    reason: req.body.reason,
                 complaint_name: req.body.name,
                 complaint_description: req.body.description,
                 complaint_status: req.body.status,
@@ -27,7 +29,7 @@ class ComplaintController{
     static fetchAllComplaints = async (req, res) => {
         try {
             const complaints = await ComplaintModel.find();
-            res.status(200).json({ complaints });
+            res.status(200).json(complaints);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
@@ -52,11 +54,11 @@ class ComplaintController{
             if (oldComplaintRecord) {
                 const updatedComplaintRecord = await ComplaintModel.findByIdAndUpdate(
                     req.params.id,
-                    {
-                        complaint_name: req.body.name,
-                        complaint_description: req.body.description,
-                        complaint_status: req.body.status,
-                        complaint_date: req.body.date,
+                    {   
+                        complaint_name: req.body.name !== "" ? req.body.name : oldComplaintRecord.complaint_name,
+                        complaint_description: req.body.description !== "" ? req.body.description : oldComplaintRecord.complaint_description,
+                        complaint_status: req.body.status !== "" ? req.body.status : oldComplaintRecord.complaint_status,
+                        reason: req.body.reason !== "" ? req.body.reason : oldComplaintRecord.reason,
                         complaint_image:req.file?req.file.originalname:oldComplaintRecord.complaint_image,
                     },
                     { new: true }

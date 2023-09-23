@@ -8,6 +8,8 @@ const landlordSchema = new Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     profile: { type: String, required: false, default: '' },
-});
+},{
+    timestamps: true,
+  });
 
 export default mongoose.model('landlords',landlordSchema);

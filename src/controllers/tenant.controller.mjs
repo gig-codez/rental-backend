@@ -33,8 +33,14 @@ class TenantController {
               profile: profile_img,
               property: req.body.property,
               landlord: req.body.landlord,
+              monthly_rent: req.body.monthly_rent,
+              power_fee: req.body.power_fee,
+              power_status: req.body.power_status,
+              otp: req.body.otp,
+              fcm_token: req.body.fcm_token,
+              isEmailVerified: req.body.isEmailVerified
             });
-  
+
             await tenantPayload.save();
             res.status(200).send(tenantPayload);
           } else {
@@ -42,8 +48,6 @@ class TenantController {
           }
         }
       });
-
-     
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -75,37 +79,68 @@ class TenantController {
   };
   // function to update a tenant
   static updateTenant = async (req, res) => {
-    let profile_img = "";
     try {
       // Find the tenant using the Tenant model
       const oldTenantRecord = await tenantsModel.findById(req.params.id);
       if (oldTenantRecord) {
-        if (req.file) {
-          profile_img = req.file.originalname;
-        } else {
-          profile_img = oldTenantRecord.profile;
-        }
         // Update the tenant record
         const updatedTenantRecord = await tenantsModel.findByIdAndUpdate(
           req.params.id,
           {
-            name: req.body.name,
-            address: req.body.address,
-            email: req.body.email,
-            phone: req.body.phone,
-            password: req.body.password,
-            profile: profile_img,
-            property: property_id,
-            landlord: landlord_id,
+            name: req.body.name != "" ? req.body.name : oldTenantRecord.name,
+            address:
+              req.body.address != ""
+                ? req.body.address
+                : oldTenantRecord.address,
+            email:
+              req.body.email != "" ? req.body.email : oldTenantRecord.email,
+            phone:
+              req.body.phone != "" ? req.body.phone : oldTenantRecord.phone,
+            password:
+              req.body.password != ""
+                ? bcrypt.hashSync(req.body.password, 10)
+                : oldTenantRecord.password,
+            profile: req.file ? req.file.originalname : oldTenantRecord.profile,
+            property: oldTenantRecord.property,
+            landlord: oldTenantRecord.landlord,
+            power_fee:
+              req.body.power_fee != ""
+                ? req.body.power_fee
+                : oldTenantRecord.power_fee,
+            monthly_rent:
+              req.body.monthly_rent != ""
+                ? req.body.monthly_rent
+                : oldTenantRecord.monthly_rent,
+            power_status:
+              req.body.power_status != ""
+                ? req.body.power_status
+                : oldTenantRecord.power_status,
           },
           { new: true }
         );
-        res.status(200).json({ message: updatedTenantRecord });
+        res
+          .status(200)
+          .json({
+            message: `${updatedTenantRecord.name} updated successfully`,
+          });
       } else {
         res.status(400).json({ message: "Tenant not found" });
       }
     } catch (err) {
       res.status(500).json({ message: err.message });
+    }
+  };
+  // fetch specific tenant
+  static fetchTenant = async (req, res) => {
+    try {
+      const tenant = await tenantsModel.findById(req.params.id);
+      if (tenant) {
+        res.status(200).json(tenant);
+      } else {
+        res.status(400).json({ message: "Tenant not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
   };
 }

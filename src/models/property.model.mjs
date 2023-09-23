@@ -12,5 +12,7 @@ const propertySchema = new Schema({
         type: Types.ObjectId,
         required: true,
     }
-});
+},{
+    timestamps: true,
+  });
 export default mongoose.model('properties',propertySchema);

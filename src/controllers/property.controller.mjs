@@ -2,14 +2,26 @@ import PropertyModel from "../models/property.model.mjs";
 class PropertyController {
   static createProperty = async (req, res) => {
     try {
-      const property = new PropertyModel({
+      // first check if it exists
+      const oldProperty = await PropertyModel.findOne({
         name: req.body.name,
         address: req.body.address,
         floors: req.body.floors,
-        landlord: req.body.landlord,
-        
       });
-      res.status(201).json({ message: property });
+      if (oldProperty) {
+        res.status(400).json({ message: "Property already exists!" });
+      } else {
+        const property = new PropertyModel({
+          name: req.body.name,
+          address: req.body.address,
+          floors: req.body.floors,
+          landlord: req.body.landlord,
+          
+        });
+       await property.save();
+        res.status(201).json({ message: property });
+      }
+     
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
