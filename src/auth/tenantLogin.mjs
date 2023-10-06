@@ -38,7 +38,8 @@ class TenantLogin {
                     token: token,
                     email: tenant.email,
                     name: tenant.name,
-                    rent:tenant.monthly_rent
+                    rent: tenant.monthly_rent,
+                    property:tenant.property
                   });
                 } else {
                   res

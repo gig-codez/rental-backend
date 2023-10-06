@@ -30,7 +30,7 @@ const tenantSchema = new Schema({
   property: {
     type: Types.ObjectId,
     required: false,
-    ref: "property",
+    ref: "properties",
   },
   landlord: {
     type: Types.ObjectId,

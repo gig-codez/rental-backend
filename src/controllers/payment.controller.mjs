@@ -4,10 +4,10 @@ class PaymentController {
   static addPayment = async (req, res) => {
     try {
       const payment = new PaymentModel({
-        date: Date.now().toLocaleString(),
         amount_paid: req.body.amount,
         balance: req.body.balance,
         tenant: req.body.tenant,
+        property:req.body.property
       });
       await payment.save();
       res.status(200).json({ message: payment });
@@ -42,14 +42,29 @@ class PaymentController {
   // function to get all payments
   static getAllPayments = async (req, res) => {
     try {
-      const payments = await PaymentModel.find()
+      const payments = await PaymentModel.find({})
         .where({ tenant: req.params.id })
+        .populate({
+          path: 'tenant',
+          select: "_id name profile property email phone",
+          
+        }).populate({
+          path: 'property',
+          select: "_id name address landlord",
+          populate: {
+            path: 'landlord',
+            select: "_id name email phone",
+          }
+        })
         .sort({ createdAt: -1 });
+        
+  
       res.status(200).json(payments);
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
   };
+  
   // function to return only the last record inserted
   static getLastPayment = async (req, res) => {
     try {

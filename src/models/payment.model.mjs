@@ -7,12 +7,13 @@ const paymentSchema = new Schema({
         type: Number,
         required: false,
         default: 0,
-    }, date: {
-        type: String,
-        required: true
     }, tenant: {
         type: Types.ObjectId,
         ref: 'tenants',
+        required: true
+    },property: {
+        type: Types.ObjectId,
+        ref: 'properties',
         required: true
     }
 },{

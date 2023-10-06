@@ -71,12 +71,13 @@ class TenantController {
   static fetchAllTenants = async (req, res) => {
     try {
       // Find all tenants using the Tenant model
-      const tenants = await tenantsModel.find();
+      const tenants = await tenantsModel.find().populate('property');
       res.status(200).send(tenants);
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
   };
+  
   // function to delete a tenant
   static deleteTenant = async (req, res) => {
     try {
@@ -147,7 +148,7 @@ class TenantController {
   // fetch specific tenant
   static fetchTenant = async (req, res) => {
     try {
-      const tenant = await tenantsModel.findById(req.params.id);
+      const tenant = await tenantsModel.findById(req.params.id).populate('property');
       if (tenant) {
         res.status(200).json(tenant);
       } else {
