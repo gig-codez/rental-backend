@@ -34,4 +34,5 @@ router.post("/login/tenant", TenantLogin.tenantLogin);
 // forgot password
 router.post('/forgotPassword', ForgotPassword.forgotPassword);
 router.post('/changePassword', TenantController.changePassword);
+
 export default router;
