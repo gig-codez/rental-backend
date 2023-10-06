@@ -53,10 +53,14 @@ class PaymentController {
   // function to return only the last record inserted
   static getLastPayment = async (req, res) => {
     try {
-      const payment = await PaymentModel.findOne().where({tenant:req.params.id}).sort({ createdAt: -1 });
-      res.status(200).json(payment);
+      const payment = await PaymentModel.findOne().where({ tenant: req.params.id }).sort({ createdAt: -1 });
+      if (payment) {
+        res.status(200).json(payment);
+      } else {
+         res.status(400).json({ message: "Payment not found" });
+      }
     } catch (err) {
-      res.status(500).json({ message: err.message });
+       res.status(500).json({ message: err.message });
     }
   }
 

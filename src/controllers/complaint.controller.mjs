@@ -1,4 +1,5 @@
 import ComplaintModel from "../models/complaint.model.mjs";
+import tenantsModel from "../models/tenants.model.mjs";
 class ComplaintController{
     // function to add complaints
     static addComplaint = async (req, res) => {
@@ -12,14 +13,14 @@ class ComplaintController{
                     tenant: req.body.tenant,
                     property: req.body.property,
                     reason: req.body.reason,
-                complaint_name: req.body.name,
-                complaint_description: req.body.description,
-                complaint_status: req.body.status,
-                complaint_date: req.body.date,
-                complaint_image: req.file ? req.file.originalname : "default.png",
+                    complaint_name: req.body.name,
+                    complaint_description: req.body.description,
+                    complaint_status: req.body.status,
+                    
+                    complaint_image: req.file ? req.file.originalname : "default.png",
                 });
                await complaint.save();
-            res.status(200).json({ complaint });
+            res.status(200).json({ message:"Complaint added successfully" });
         }
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -32,6 +33,19 @@ class ComplaintController{
             res.status(200).json(complaints);
         } catch (err) {
             res.status(500).json({ message: err.message });
+        }
+    }
+    static fetchTenantComplaints = async(req, res) => {
+        try {
+            var tenant = await tenantsModel.findOne({ _id: req.params.id });
+            if (tenant) {
+                let complaints = await ComplaintModel.find({}).where({ tenant: req.params.id });
+                res.status(200).json(complaints);
+            } else {
+                res.status(400).json({ message: "Tenant not found" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
     }
     // function to delete a complaint

@@ -11,5 +11,6 @@ router.get("/payments/:id", PaymentController.getAllPayments);
 router.get("/lastPayment/:id", PaymentController.getLastPayment);
 router.get("/property", PropertyController.fetchAllProperties);
 router.get("/complaints", ComplaintController.fetchAllComplaints);
+router.get("/tenantComplaints/:id", ComplaintController.fetchTenantComplaints);
 // router.get('')
 export default router;

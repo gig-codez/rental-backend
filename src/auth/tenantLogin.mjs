@@ -6,6 +6,7 @@ import { updateTenantFCMToken } from "../helpers/helperfunctions.mjs";
 class TenantLogin {
   static tenantLogin = async (req, res) => {
     try {
+      console.log(req.body)
       // first check if a landlord with the same name exists
       const tenant = await tenantModel.findOne({
         email: req.body.email,
@@ -13,7 +14,7 @@ class TenantLogin {
       let token = jwt.sign(
         { email: tenant.email, _id: tenant._id },
         process.env.SECRET_KEY,
-        { expiresIn: "1h" }
+        { expiresIn: "5m" }
       );
       //    compare encrypted password
       bcrypt.compare(
@@ -37,6 +38,7 @@ class TenantLogin {
                     token: token,
                     email: tenant.email,
                     name: tenant.name,
+                    rent:tenant.monthly_rent
                   });
                 } else {
                   res
