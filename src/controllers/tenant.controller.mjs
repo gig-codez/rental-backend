@@ -77,7 +77,16 @@ class TenantController {
       res.status(500).json({ message: err.message });
     }
   };
-  
+   // get all landlords
+   static fetchLandlordTenants = async (req, res) => {
+    try {
+      // Find all tenants using the Tenant model
+      const tenants = await tenantsModel.find().where({landlord:req.params.id}).populate('property');
+      res.status(200).send(tenants);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
   // function to delete a tenant
   static deleteTenant = async (req, res) => {
     try {

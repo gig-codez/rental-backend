@@ -10,6 +10,7 @@ import getRoutes from "./src/routes/get.routes.mjs";
 import deleteRoutes from "./src/routes/delete.routes.mjs";
 import updateRoutes from "./src/routes/update.routes.mjs";
 import specificRoutes from "./src/routes/specific.route.mjs";
+import authRoutes from "./src/routes/auth/login.routes.mjs";
 // app routes
 app.use(json());
 app.use(cors());
@@ -20,6 +21,7 @@ app.use("/get", getRoutes);
 app.use("/delete", deleteRoutes);
 app.use("/update", updateRoutes);
 app.use("/specific",specificRoutes);
+app.use("/auth",authRoutes);
 // db connection
 const dbOptions = {
   useNewUrlParser: true,

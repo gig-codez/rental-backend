@@ -5,17 +5,11 @@ class LandlordController {
     let profile_img = "";
     try {
       if (req.file) {
-        console.log(req.file);
-        profile_img = req.file.path;
+        profile_img = req.file.originalname;
       } else {
         profile_img = `default.png`;
       }
-      const landlordPayload = new landlordModel({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        profile: profile_img,
-      });
+     
       // first check if a landlord with the same name exists
       const oldLandlordRecord = await landlordModel.findOne({
         name: req.body.name,
@@ -26,7 +20,14 @@ class LandlordController {
           res.status(500).json({ message: err.message });
         } else {
           if (!oldLandlordRecord) {
+
             // If the landlord does not exist, create a new one
+            const landlordPayload = new landlordModel({
+              name: req.body.name,
+              email: req.body.email,
+              password: hash,
+              profile: profile_img,
+            });
             await landlordPayload.save();
             res.status(200).send(landlordPayload);
           } else {

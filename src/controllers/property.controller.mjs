@@ -16,12 +16,10 @@ class PropertyController {
           address: req.body.address,
           floors: req.body.floors,
           landlord: req.body.landlord,
-          
         });
-       await property.save();
+        await property.save();
         res.status(201).json({ message: property });
       }
-     
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -30,7 +28,15 @@ class PropertyController {
   static fetchAllProperties = async (req, res) => {
     try {
       const properties = await PropertyModel.find();
-      res.status(200).json({ properties });
+      res.status(200).json(properties);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };  // function to get all properties
+  static fetchLandlordProperties = async (req, res) => {
+    try {
+      const properties = await PropertyModel.find().where({landlord:req.params.id});
+      res.status(200).json(properties);
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -60,7 +66,6 @@ class PropertyController {
             address: req.body.address,
             floors: req.body.floors,
             landlord: req.body.landlord,
-      
           },
           { new: true }
         );
