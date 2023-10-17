@@ -22,7 +22,7 @@ app.use("/get", getRoutes);
 app.use("/delete", deleteRoutes);
 app.use("/update", updateRoutes);
 app.use("/specific",specificRoutes);
-app.use("/auth",authRoutes);
+app.use("/post",authRoutes);
 // db connection
 const dbOptions = {
   useNewUrlParser: true,

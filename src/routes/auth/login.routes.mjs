@@ -6,6 +6,7 @@ import fileUpload from "../../tools/fileUpload.mjs";
 import TenantController from "../../controllers/tenant.controller.mjs";
 import LandlordController from "../../controllers/landlord.controller.mjs";
 const router = Router();
+
 // login
 router.post("/login/tenant", TenantLogin.tenantLogin);
 router.post("/login/landlord", LandlordLogin.landlordLogin);
