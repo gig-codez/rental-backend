@@ -81,7 +81,7 @@ class TenantController {
    static fetchLandlordTenants = async (req, res) => {
     try {
       // Find all tenants using the Tenant model
-      const tenants = await tenantsModel.find().where({landlord:req.params.id}).populate('property');
+      const tenants = await tenantsModel.find().where({landlord:req.params.id,property:req.params.property_id}).populate('property');
       res.status(200).send(tenants);
     } catch (err) {
       res.status(500).json({ message: err.message });

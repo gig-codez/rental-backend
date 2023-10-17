@@ -5,6 +5,11 @@ const landlordSchema = new Schema({
         type: String,
         required: true
     },
+    fcm_token: {
+        type: String,
+        required:false,
+        default:''
+    },
     email: { type: String, required: true },
     password: { type: String, required: true },
     profile: { type: String, required: false, default: '' },

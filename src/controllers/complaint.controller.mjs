@@ -1,3 +1,5 @@
+import axios from "axios";
+import PushNotification from "../helpers/pushNotification.mjs";
 import ComplaintModel from "../models/complaint.model.mjs";
 import tenantsModel from "../models/tenants.model.mjs";
 class ComplaintController{
@@ -16,10 +18,14 @@ class ComplaintController{
                     complaint_name: req.body.name,
                     complaint_description: req.body.description,
                     complaint_status: req.body.status,
-                    
                     complaint_image: req.file ? req.file.originalname : "default.png",
                 });
-               await complaint.save();
+               let tenant = await tenantsModel.findOne({ _id: tenant });
+                await complaint.save();
+               await axios.post(`http://127.0.0.1:4045/post/push/`, {
+                    title: "New Complaint",
+                    body: `${tenant.name} added a new complaint.`
+                });
             res.status(200).json({ message:"Complaint added successfully" });
         }
         } catch (err) {

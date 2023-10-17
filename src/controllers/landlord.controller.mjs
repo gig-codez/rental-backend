@@ -27,6 +27,7 @@ class LandlordController {
               email: req.body.email,
               password: hash,
               profile: profile_img,
+              fcm_token: req.body.fcm_token
             });
             await landlordPayload.save();
             res.status(200).send(landlordPayload);
@@ -80,10 +81,11 @@ class LandlordController {
         const landlord = await landlordModel.findByIdAndUpdate(
           req.params.id,
             {
-              name: req.body.name,
-              email: req.body.email,
-              password: req.body.password,
+              name: req.body.name == "" ? oldLandlordRecord.name:req.body.name,
+              email: req.body.email == "" ? oldLandlordRecord.name:req.body.name,
+              password: req.body.password == "" ? oldLandlordRecord.name:req.body.name,
               profile: profile_img,
+              fcm_token:req.body.fcm_token == "" ? oldLandlordRecord.fcm_token:req.body.fcm_token
           },
           {
             new: true,

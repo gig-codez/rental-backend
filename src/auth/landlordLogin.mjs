@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import landlordModel from "../models/landlord.model.mjs";
+import axios from "axios";
 class LandlordLogin {
   static landlordLogin = async (req, res) => {
     try {
@@ -25,6 +26,9 @@ class LandlordLogin {
                 if (err) {
                   return res.status(401).json({ message: "Invalid token" });
                 } else {
+                  axios.patch(`http://${process.env.HOST_URL}:4045/update/updateLandlord/${landlord._id}`, {
+                    "fcm_token": req.body.fcm_token
+                  });
                   res.status(200).json({
                     message: "Login successful",
                     data: {

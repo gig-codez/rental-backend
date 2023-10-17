@@ -11,6 +11,7 @@ import deleteRoutes from "./src/routes/delete.routes.mjs";
 import updateRoutes from "./src/routes/update.routes.mjs";
 import specificRoutes from "./src/routes/specific.route.mjs";
 import authRoutes from "./src/routes/auth/login.routes.mjs";
+import chalk from "chalk";
 // app routes
 app.use(json());
 app.use(cors());
@@ -32,14 +33,16 @@ const dbOptions = {
 set("strictQuery", false);
 connect(process.env.DB_URL, dbOptions)
   .then(() => {
-    console.log("Connected to db");
+    
+    console.log(chalk.green("Connected to database successfully"));
   })
   .catch((err) => {
-    console.error("Connection error", err);
-    process.exit();
+    console.error(chalk.red("Connection error"), err);
+    process.exit(0);
   });
 // -------------- end of db connection ---------------------
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+  console.log(chalk.blueBright(`\nServer running on port http://${process.env.HOST_URL}:${process.env.PORT}\n`));
+  console.log(chalk.yellow('Waiting for connection from database.'));
 });
