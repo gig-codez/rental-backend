@@ -1,6 +1,5 @@
 // import serviceAccount from "./config.json";
 import admin from "firebase-admin";
-import fcm from "fcm-notification";
 import "dotenv/config"
 const serviceAccount = {
     "type": "service_account",

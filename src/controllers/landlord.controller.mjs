@@ -30,9 +30,9 @@ class LandlordController {
               fcm_token: req.body.fcm_token
             });
             await landlordPayload.save();
-            res.status(200).send(landlordPayload);
+            res.status(200).json(landlordPayload);
           } else {
-            res.status(400).send("Landlord already exists!");
+            res.status(400).json({message: "Landlord already exists!"});
           }
         }
       })
@@ -45,7 +45,7 @@ class LandlordController {
   static fetchAllLandlords = async (req, res) => {
     try {
       const landlords = await landlordModel.find();
-      res.status(200).json({ landlords });
+      res.status(200).json( landlords );
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
