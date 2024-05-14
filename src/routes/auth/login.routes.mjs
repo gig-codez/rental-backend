@@ -5,6 +5,7 @@ import LandlordLogin from "../../auth/landlordLogin.mjs";
 import fileUpload from "../../tools/fileUpload.mjs";
 import TenantController from "../../controllers/tenant.controller.mjs";
 import LandlordController from "../../controllers/landlord.controller.mjs";
+import UsersController from "../../controllers/users.controller.mjs";
 const router = Router();
 
 // login
@@ -21,4 +22,6 @@ router.post(
   fileUpload("/uploads"),
   LandlordController.createLandlord
 );
+
+router.post("/create/user",UsersController.createUser);
 export default router;

@@ -66,7 +66,7 @@ class LandlordController {
     }
   };
   // update landlord details
-    static updateLandlord = async (req, res) => {
+  static updateLandlord = async (req, res) => {
       let profile_img = "";
     try {
         const oldLandlordRecord = await landlordModel.findById(req.params.id);
