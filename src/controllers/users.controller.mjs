@@ -1,4 +1,5 @@
 import UsersModel from "../models/users.model.mjs";
+import sendEmailController from "./sendEmail.controller.mjs";
 import bcrypt from "bcrypt";
 
 class UsersController {
@@ -41,6 +42,8 @@ const createUser = async (existingUser, req, res) =>{
             ...(req.body.password && { password: req.body.password })
         });
         await newUserPayload.save();
+        // if password was not in the request, send the user an email to create their own password
+        sendEmailController.sendEmail(req.body.email, req.body.firstName)
         res.status(200).json(newUserPayload);
     } else {
         res.status(400).json({message: "User with same username and email already exists!"});
