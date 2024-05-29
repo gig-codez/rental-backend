@@ -10,12 +10,13 @@ class SendEmailController {
     }
 });
 
-static sendEmail = (emailRecipient,tenantName) => {
+static sendEmail = (emailRecipient,tenantName,userId) => {
+    const resetURL = `http://127.0.0.1:3000/get/setPassword/${userId}`;// TODO-add a token here
     const mailOptions = {
         from: 'rachealdev256@gmail.com',
         to: emailRecipient,
-        subject: 'Set an Account password',
-        text: 'Dear ' + tenantName + ' Use the link below to set a password for your account in the NyumbaYo App .'
+        subject: 'NyumbaYo - Set an Account password',
+        html: `Dear  ${tenantName}  Use the link below to set a password for your account in the NyumbaYo App .<br> <a href="${resetURL}">Set Password</a>`
     };
 
     SendEmailController.transporter.sendMail(mailOptions, (error, info) =>{

@@ -1,9 +1,13 @@
 import express, { json } from "express";
 import "dotenv/config";
 import cors from "cors";
-import { join, dirname } from "path";
 import { set, connect } from "mongoose";
+import path from 'path';
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // app libraries
 import postRoutes from "./src/routes/post.routes.mjs";
 import getRoutes from "./src/routes/get.routes.mjs";
@@ -12,6 +16,8 @@ import updateRoutes from "./src/routes/update.routes.mjs";
 import specificRoutes from "./src/routes/specific.route.mjs";
 import authRoutes from "./src/routes/auth/login.routes.mjs";
 import chalk from "chalk";
+import UsersController from "./src/controllers/users.controller.mjs";
+import {fileURLToPath} from "url";
 // app routes
 app.use(json());
 app.use(cors());
@@ -22,12 +28,15 @@ app.use("/get", getRoutes);
 app.use("/delete", deleteRoutes);
 app.use("/update", updateRoutes);
 app.use("/specific",specificRoutes);
-app.use("/post",authRoutes);
+app.use("/login",authRoutes);
 // db connection
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
+
+// Serve static files from "node_modules/bootstrap"
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
 // connecting to the database
 set("strictQuery", false);
@@ -46,3 +55,4 @@ app.listen(process.env.PORT, () => {
   console.log(chalk.blueBright(`\nServer running on port http://${process.env.HOST_URL}:${process.env.PORT}\n`));
   console.log(chalk.yellow('Waiting for connection from database.'));
 });
+
