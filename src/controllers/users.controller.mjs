@@ -20,9 +20,11 @@ class UsersController {
             });
             if(req.body.password){
                 bcrypt.hash(req.body.password, 10, async (err, hash) => {
+                    console.log("hashed password",req.body.password)
                     if (err) {
                         res.status(500).json({message: err.message});
                     } else {
+                        req.body.password = hash; // Update the password to the hashed value
                         await createUser(existingUser, req, res) // call function to create user after hashing
                     }
                 })

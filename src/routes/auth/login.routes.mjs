@@ -6,6 +6,7 @@ import fileUpload from "../../tools/fileUpload.mjs";
 import TenantController from "../../controllers/tenant.controller.mjs";
 import LandlordController from "../../controllers/landlord.controller.mjs";
 import UsersController from "../../controllers/users.controller.mjs";
+import AuthController from "../../auth/userLogin.mjs"
 const router = Router();
 
 // login
@@ -24,6 +25,8 @@ router.post(
 );
 
 router.post("/create/user",UsersController.createUser);
+
+router.post("/user/login",AuthController.loginUser);
 
 router.get("/setPassword", UsersController.setPasswordPage);
 export default router;
