@@ -15,8 +15,9 @@ class UsersController {
         try {
             // first check if a user with the same username and email exists
             const existingUser = await UsersModel.findOne({
-                username: req.body.username,
-                email: req.body.email,
+               $or:[ {username: req.body.username},
+                   {email: req.body.email}
+               ]
             });
             if(req.body.password){
                 bcrypt.hash(req.body.password, 10, async (err, hash) => {
@@ -62,7 +63,9 @@ const createUser = async (existingUser, req, res) =>{
             // Access the generated ID
             const userId = savedUser._id;
             // if password was not in the request, send the user an email to create their own password
-            sendEmailController.sendEmail(req.body.email, req.body.firstName,userId)
+            if(!req.body.password){
+                sendEmailController.sendEmail(req.body.email, req.body.firstName,userId)
+            }
             res.status(200).json(newUserPayload);
 
         } catch (error) {
@@ -71,10 +74,8 @@ const createUser = async (existingUser, req, res) =>{
             throw error;
         }
 
-
-
     } else {
-        res.status(400).json({message: "User with same username and email already exists!"});
+        res.status(400).json({message: "User with same username or email already exists!"});
     }
 }
 export default UsersController;

@@ -3,6 +3,7 @@ import "dotenv/config";
 import cors from "cors";
 import { set, connect } from "mongoose";
 import path from 'path';
+import authMiddleware from "../../projects/rental-backend/src/middleware/authMiddleWare.mjs"
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +19,11 @@ import authRoutes from "./src/routes/auth/login.routes.mjs";
 import chalk from "chalk";
 import UsersController from "./src/controllers/users.controller.mjs";
 import {fileURLToPath} from "url";
+import router from "./src/routes/auth/login.routes.mjs";
+//user does not need to be signed in to set their password
+
+
+// app.use(authMiddleware.authMiddleware); // apply authentication globally in this case all routes require authorization
 // app routes
 app.use(json());
 app.use(cors());
@@ -35,9 +41,11 @@ const dbOptions = {
   useUnifiedTopology: true,
 };
 
-// Serve static files from "node_modules/bootstrap"
-app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
+// Serve static files from the node_modules directory
 
+app.use('/bootstrap/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
+app.use('/bootstrap/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
+app.use('/assets', express.static(path.join(__dirname, "assets")));
 // connecting to the database
 set("strictQuery", false);
 connect(process.env.DB_URL, dbOptions)

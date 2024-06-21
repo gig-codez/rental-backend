@@ -11,7 +11,7 @@ class SendEmailController {
 });
 
 static sendEmail = (emailRecipient,tenantName,userId) => {
-    const resetURL = `http://127.0.0.1:3000/get/setPassword/${userId}`;// TODO-add a token here
+    const resetURL = `http://127.0.0.1:${process.env.PORT}/login/setPassword/${userId}`;// TODO-add a token here (what happens when the toke expires??)
     const mailOptions = {
         from: 'rachealdev256@gmail.com',
         to: emailRecipient,

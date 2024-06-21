@@ -18,7 +18,7 @@ class UserLogin{
             }
             const token = jwt.sign({ userId: user._id },
                 process.env.SECRET_KEY, { expiresIn: '1h' });
-            res.json({ token });
+            res.json({ token }); //TODO - return the firstname , lastname , phone number , DP, and email of the user logged in
         } catch (error) {
             res.status(500).json({ error: 'Authentication failed' });
         }

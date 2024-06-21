@@ -26,7 +26,7 @@ class LandlordLogin {
                 if (err) {
                   return res.status(401).json({ message: "Invalid token" });
                 } else {
-                  axios.patch(`http://${process.env.HOST_URL}:4045/update/updateLandlord/${landlord._id}`, {
+                  axios.patch(`http://${process.env.HOST_URL}:3000/update/updateLandlord/${landlord._id}`, {
                     "fcm_token": req.body.fcm_token
                   });
                   res.status(200).json({
