@@ -40,7 +40,8 @@ const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-
+//set up to use ejs
+app.set('view engine','ejs');
 // Serve static files from the node_modules directory
 
 app.use('/bootstrap/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));

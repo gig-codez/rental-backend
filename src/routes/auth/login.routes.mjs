@@ -29,4 +29,6 @@ router.post("/create/user",UsersController.createUser);
 router.post("/user/login",AuthController.loginUser);
 
 router.get("/setPassword/:userId", UsersController.setPasswordPage);
+
+router.post("/update-password/:userId", UsersController.updateUsersPassword);
 export default router;

@@ -40,9 +40,25 @@ class UsersController {
     };
 
     static setPasswordPage = async (req , res) => {
-        res.sendFile(path.resolve('src/public/setPassWord.html'))
-
+        const userId = req.params.userId
+        res.render('setPassword',{userId})
     };
+
+    static updateUsersPassword = async (req, res) =>{
+        const { password, confirmPassword } = req.body;
+        const userId = req.params.userId;
+
+        if (password !== confirmPassword) {
+            return res.status(400).send('Passwords do not match');
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Update the password in the database
+        await UsersModel.findByIdAndUpdate(userId, { password: hashedPassword });
+        res.send('Password updated successfully');
+    }
 }
 
 const createUser = async (existingUser, req, res) =>{
